@@ -51,45 +51,70 @@ int partition(int arr[], int left, int right, int pivotValue) {
     return i + 1;
 }
 
-// Find median of medians
-int medianOfMedians(int arr[], int left, int right) {
-    int n = right - left + 1;
-    
-    // If 5 or fewer elements, sort and return median
-    if(n <= 5) {
-        insertionSort(arr, left, right);
-        return arr[left + n / 2];
+
+// Helper: Partition arr[left..right] into <pivot, ==pivot, >pivot, returns start and end of ==pivot
+void threeWayPartition(int arr[], int left, int right, int pivot, int &start, int &end) {
+    int i = left, lt = left, gt = right;
+    while(i <= gt){
+        if (arr[i] < pivot) {
+            swap(arr[i], arr[lt]);
+            i++; lt++;
+        }
+        else if (arr[i] > pivot) {
+            swap(arr[i], arr[gt]);
+            gt--;
+        }
+        else {
+            i++;
+        }
     }
-    
+    start = lt;
+    end = gt;
+}
+
+// Median of Medians selection: finds the value at index r (0-based) in arr[left..right]
+int medianOfMediansSelect(int arr[], int left, int right, int r) {
+    int n = right - left + 1;
+    if (n <= 5) {
+        insertionSort(arr, left, right);
+        return arr[left + r];
+    }
     // Step 1: Divide into groups of 5 and find medians
-    int numGroups = (n + 4) / 5;  // Ceiling of n/5
+    int numGroups = (n + 4) / 5;
     int medians[100];
-    
-    for(int i = 0; i < numGroups; i++) {
+    for (int i = 0; i < numGroups; i++) {
         int groupLeft = left + i * 5;
         int groupRight = min(groupLeft + 4, right);
-        
-        // Step 2: Sort each group and find median
         insertionSort(arr, groupLeft, groupRight);
         int groupSize = groupRight - groupLeft + 1;
         medians[i] = arr[groupLeft + groupSize / 2];
     }
-    
-    // Step 3: Recursively find median of medians
-    // Copy medians to a temporary location in array for recursion
-    int tempArr[100];
-    for(int i = 0; i < numGroups; i++) {
-        tempArr[i] = medians[i];
+    // Step 2: Find median of medians recursively
+    int mom = medianOfMediansSelect(medians, 0, numGroups - 1, numGroups / 2);
+    // Step 3: Partition arr around mom
+    int start, end;
+    threeWayPartition(arr, left, right, mom, start, end);
+    int k = start - left; // number of elements < mom
+    int m = end - left + 1; // number of elements <= mom
+    if (r < k){
+        // Desired index is in left part
+        return medianOfMediansSelect(arr, left, start - 1, r);
     }
-    
-    // Find median of medians recursively
-    if(numGroups == 1) {
-        return tempArr[0];
+    else if (r < m){
+        // Desired index is in ==mom part
+        return mom;
     }
-    
-    // Sort medians and return middle element
-    insertionSort(tempArr, 0, numGroups - 1);
-    return tempArr[numGroups / 2];
+    else{
+        // Desired index is in right part
+        return medianOfMediansSelect(arr, end + 1, right, r - m);
+    }
+}
+
+// Main function to get median of medians
+int medianOfMedians(int arr[], int left, int right) {
+    int n = right - left + 1;
+    int r = n / 2; // 0-based median index
+    return medianOfMediansSelect(arr, left, right, r);
 }
 
 // Quick Sort using Median of Medians as pivot
