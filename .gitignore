@@ -1,0 +1,15 @@
+# Ignore C++ executables (no extension)
+Lab_*
+Lab_*.out
+# Ignore all files without extension (common for C++ binaries)
+*
+!*/
+!*.cpp
+!*.h
+!*.md
+!*.gitignore
+# all files
+*
+!.gitignore
+!README.md
+!*.cpp
