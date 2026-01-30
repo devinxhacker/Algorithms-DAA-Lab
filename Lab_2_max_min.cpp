@@ -68,16 +68,17 @@ int main() {
     }
     cout << " ]" << endl;
     
-    // Find max and min using divide and conquer
+    // Timing Max-Min using Divide and Conquer
+    using namespace std::chrono;
+    auto start_maxmin = high_resolution_clock::now();
     pair<int, int> result = findMaxMin(arr, 0, n - 1);
-    
+    auto end_maxmin = high_resolution_clock::now();
+    auto duration_maxmin = duration_cast<nanoseconds>(end_maxmin - start_maxmin);
+
     cout << "\n--- Results ---" << endl;
     cout << "Maximum element: " << result.first << endl;
     cout << "Minimum element: " << result.second << endl;
-    
-    // Time Complexity Analysis
-    cout << "\n--- Complexity Analysis ---" << endl;
-    cout << "Time Complexity: O(n)" << endl;
+    cout << "Time taken by Max-Min (Divide and Conquer): " << duration_maxmin.count() << " nanoseconds" << endl;
     cout << "Number of comparisons: 3n/2 - 2 (approximately)" << endl;
     cout << "Space Complexity: O(log n) for recursion stack" << endl;
     

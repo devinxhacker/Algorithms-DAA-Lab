@@ -34,23 +34,23 @@ int main() {
     // Start from vertex 0
     key[0] = 0;
     
+    // Timing Prim's Algorithm
+    using namespace std::chrono;
+    auto start_prim = std::chrono::high_resolution_clock::now();
+
     // Find MST with n-1 edges
     for(int count = 0; count < n; count++) {
-        
         // Find vertex with minimum key value (not yet in MST)
         int minKey = INF;
         int u = -1;
-        
         for(int v = 0; v < n; v++) {
             if(visited[v] == 0 && key[v] < minKey) {
                 minKey = key[v];
                 u = v;
             }
         }
-        
         // Add this vertex to MST
         visited[u] = 1;
-        
         // Update key values of adjacent vertices
         for(int v = 0; v < n; v++) {
             // If v is not in MST and edge u-v has smaller weight
@@ -60,19 +60,20 @@ int main() {
             }
         }
     }
-    
+
+    auto end_prim = std::chrono::high_resolution_clock::now();
+    auto duration_prim = std::chrono::duration_cast<std::chrono::nanoseconds>(end_prim - start_prim);
+
     // Print the MST edges and total cost
     int totalCost = 0;
     cout << "\nMinimum Spanning Tree Edges:\n";
     cout << "Edge \t\t Weight\n";
-    
     for(int i = 1; i < n; i++) {
         cout << parent[i] << " - " << i << "\t\t" << graph[i][parent[i]] << "\n";
         totalCost += graph[i][parent[i]];
     }
-    
     cout << "\nTotal cost of MST: " << totalCost << endl;
-    
+    cout << "Time taken by Prim's Algorithm: " << duration_prim.count() << " nanoseconds" << endl;
     return 0;
 }
 

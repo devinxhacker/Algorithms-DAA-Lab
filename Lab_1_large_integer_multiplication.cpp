@@ -36,7 +36,14 @@ int main(){
     int x, y;
     cout << "Enter two large integers: ";
     cin >> x >> y;
+
+    using namespace std::chrono;
+    auto start_mult = high_resolution_clock::now();
     int product = multiplication(x, y);
+    auto end_mult = high_resolution_clock::now();
+    auto duration_mult = duration_cast<nanoseconds>(end_mult - start_mult);
+
     cout << "Product: " << product << endl;
+    cout << "Time taken by Karatsuba Multiplication: " << duration_mult.count() << " nanoseconds" << endl;
     return 0;
 }

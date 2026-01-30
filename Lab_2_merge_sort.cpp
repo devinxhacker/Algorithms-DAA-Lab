@@ -90,13 +90,18 @@ int main(){
     
     cout << "\nOriginal array: ";
     printArray(arr, n);
-    
-    // Call merge sort
+
+    // Timing Merge Sort
+    using namespace std::chrono;
+    auto start_merge = high_resolution_clock::now();
     mergeSort(arr, 0, n - 1);
-    
+    auto end_merge = high_resolution_clock::now();
+    auto duration_merge = duration_cast<nanoseconds>(end_merge - start_merge);
+
     cout << "Sorted array: ";
     printArray(arr, n);
-    
+    cout << "Time taken by Merge Sort: " << duration_merge.count() << " nanoseconds" << endl;
+
     return 0;
 }
 

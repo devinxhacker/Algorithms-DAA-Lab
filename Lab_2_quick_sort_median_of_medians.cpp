@@ -156,13 +156,18 @@ int main() {
     
     cout << "\nOriginal array: ";
     printArray(arr, n);
-    
-    // Call quick sort with median of medians
+
+    // Timing Quick Sort (Median of Medians)
+    using namespace std::chrono;
+    auto start_quick = high_resolution_clock::now();
     quickSort(arr, 0, n - 1);
-    
+    auto end_quick = high_resolution_clock::now();
+    auto duration_quick = duration_cast<nanoseconds>(end_quick - start_quick);
+
     cout << "Sorted array: ";
     printArray(arr, n);
-    
+    cout << "Time taken by Quick Sort (Median of Medians): " << duration_quick.count() << " nanoseconds" << endl;
+
     return 0;
 }
 
