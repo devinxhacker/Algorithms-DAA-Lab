@@ -1,5 +1,7 @@
 #include<iostream>
+#include<chrono>
 using namespace std;
+using namespace std::chrono;
 
 // Function to merge two sorted halves
 void merge(int arr[], int left, int mid, int right) {
@@ -92,7 +94,6 @@ int main(){
     printArray(arr, n);
 
     // Timing Merge Sort
-    using namespace std::chrono;
     auto start_merge = high_resolution_clock::now();
     mergeSort(arr, 0, n - 1);
     auto end_merge = high_resolution_clock::now();

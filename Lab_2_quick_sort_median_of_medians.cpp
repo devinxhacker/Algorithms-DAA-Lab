@@ -1,7 +1,7 @@
 #include<iostream>
+#include<chrono>
 using namespace std;
-
-// Quick Sort with Median of Medians as Pivot (Simple Program)
+using namespace std::chrono;
 
 // Swap two elements
 void swap(int &a, int &b) {
@@ -52,7 +52,7 @@ int partition(int arr[], int left, int right, int pivotValue) {
 }
 
 
-// Helper: Partition arr[left..right] into <pivot, ==pivot, >pivot, returns start and end of ==pivot
+// partition arr[left..right] into <pivot, ==pivot, >pivot, returns start and end of ==pivot
 void threeWayPartition(int arr[], int left, int right, int pivot, int &start, int &end) {
     int i = left, lt = left, gt = right;
     while(i <= gt){
@@ -158,7 +158,6 @@ int main() {
     printArray(arr, n);
 
     // Timing Quick Sort (Median of Medians)
-    using namespace std::chrono;
     auto start_quick = high_resolution_clock::now();
     quickSort(arr, 0, n - 1);
     auto end_quick = high_resolution_clock::now();
