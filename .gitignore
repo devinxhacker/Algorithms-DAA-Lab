@@ -13,3 +13,5 @@ Lab_*.out
 !.gitignore
 !README.md
 !*.cpp
+!quick_sort
+!*.txt
